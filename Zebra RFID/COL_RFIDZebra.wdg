@@ -1,0 +1,136 @@
+#To edit and compare internal_properties, use WINDEV integrated tools.
+#Internal properties refer to the properties of controls in windows, reports, etc.
+info :
+ name : COL_RFIDZebra
+ major_version : 28
+ minor_version : 0
+ type : 7
+ description : ""
+ subtype : 0
+procedure_set :
+ identifier : 0x1e67b5ff00ce82ee
+ internal_properties : CAAAAAgAAABGLu41kG7fjQV3iS4F72qmnKaNh5694reolNKIW0iw
+ code_elements :
+  type_code : 31
+  p_codes :
+   -
+     code : |1+
+      constant
+      	CALLBACK_DECONNEXION_LECTEUR	= "cbDéconnexionUtilisateurs"
+      	CALLBACK_CONNEXION_LECTEUR		= "cbConnexionUtilisateurs"	
+      	CALLBACK_LECTURE_TAGS			= "cbLectureTags"	
+      fin
+     type : 720896
+  procedures :
+   -
+     name : RFIDListeScanners
+     procedure_id : 2190920202761257743
+     type_code : 15
+     code : |1+
+      // Résumé : Permet de récupérer la liste des scanners disponibles
+      // Syntaxe :
+      //[ <Résultat> = ] RFIDListeScanners ()
+      //
+      
+      procédure RFIDListeScanners()
+      
+      // On renvoie directement le tableau de chaînes
+      renvoyer COL_RFIDInterne.gtabListeScanners
+     type : 458752
+   -
+     name : RFIDSélectionneScanner
+     procedure_id : 2191306646747131058
+     type_code : 15
+     code : |1-
+      // Résumé : Permet de sélectionner un scanner
+      // Syntaxe :
+      //[ < Résultat > = ] RFIDSélectionneScanner (<sNomScanner>)
+      //
+      // Paramètres :
+      //	sNomScanner : Le nom du scanner à sélectionner
+      
+      procédure RFIDSélectionneScanner(local sNomScanner)
+      
+      bTrouvé est un booléen
+      
+      POUR TOUT ELEMENT stUnScanner de COL_RFIDInterne.gtabListeScanners
+      	si stUnScanner.sNom ~= sNomScanner alors
+      		// On reprend le même nom (histoire d'être sûr d'avoir la bonne casse)
+      		sNomScanner = stUnScanner.sNom
+      		bTrouvé = Vrai
+      		sortir
+      	fin
+      fin
+      
+      si bTrouvé = Faux alors
+      	renvoyer Faux
+      fin
+      
+      
+      
+      renvoyer _SelectionneLecteurRFID_JAVA(sNomScanner)
+     type : 458752
+   -
+     name : RFIDDémarreLecture
+     internal_properties : CAAAAAgAAABnUWatHZUXMoDb8Dy57Vr5+ic//F/Y/IEPvb78nKEJSVeikCR1rh3dNvUTGqCO8yTFCDhYZt7PA4euLU4nuVUtZNjRPJgRAUNpSz/1BQM/M7T3ZS6tif+TygtiXqVlQWvaRbK/vHrORgiqWwA=
+     procedure_id : 2191630998382771692
+     type_code : 15
+     code : |1-
+      // Résumé : Permet de démarrer la lecture des scans RFID
+      // Syntaxe :
+      //RFIDDémarreLecture ()
+      //
+      
+      procédure RFIDDémarreLecture()
+      
+      _RFIDLit_Java()
+     type : 458752
+   -
+     name : RFIDStoppeLecture
+     procedure_id : 2191631518073936086
+     type_code : 15
+     code : |1-
+      // Résumé : Permet d'arrêter la lecture des tags RFID
+      // Syntaxe :
+      // RFIDStoppeLecture ()
+      //
+      procédure RFIDStoppeLecture()
+      
+      _RFIDStoppe_Lecture_JAVA()
+     type : 458752
+   -
+     name : RFIDDéfinitCallback
+     internal_properties : CAAAAAgAAAB6ExcAUAy9xI5+CVlUfEs0D/qfmLCS39l4Tu0ppZZsznwcYOgMdsrtrH18AfYhZ0EHQITy1EpdFBaHpNby7K4KzXSBuRKEQnLrQKLltcpDqcS2vWgfVxpNCF9tiiEzxZw8x70w3hLSKU5DCxtkC8At0MrtuSj8wzyGxblMR5hM9d7sd/imRnX8B17dMlcIMhoH9FXJ84YhpwpXl2vgXppUEhb3gA==
+     procedure_id : 2209073350191159509
+     type_code : 15
+     code : |1-
+      // Résumé : Permet de définir une callback
+      // Syntaxe :
+      //[ <Résultat> = ] RFIDDéfinitCallback (<sTypeCallback>, <pCallback> est procédure)
+      //
+      // Paramètres :
+      //	sTypeCallback : Le type de callback (CALLBACK_CONNEXION_LECTEUR, CALLBACK_DECONNEXION_LECTEUR, CALLBACK_LECTURE_TAGS)
+      //	pCallback (procédure) : La procédure à appeler
+      
+      procédure RFIDDéfinitCallback(sTypeCallback, pCallback est une procédure)
+      
+      
+      si pas sTypeCallback dans (CALLBACK_CONNEXION_LECTEUR, CALLBACK_DECONNEXION_LECTEUR, CALLBACK_LECTURE_TAGS) alors
+      	renvoyer Faux
+      fin
+      
+      setcallback(sTypeCallback, pCallback)
+      
+      renvoyer Vrai
+     type : 458752
+  procedure_templates : []
+  property_templates : []
+ code_parameters :
+  internal_properties : CAAAAAgAAACVGQgYbalU7DKC3oH4ItDrjtcTHXXV/EuH8q0IbhyQlw==
+  original_name : COL_NoName1
+resources :
+ string_res :
+  identifier : 0x1e67b5fb00cc72d1
+  internal_properties : CAAAAAgAAACm76HWfKGWp33VjXInA4cRlqArlgTTA862QGt72W2ld5Y=
+custom_note :
+ internal_properties : CAAAAAgAAABtB9HWVzrXO2+4NDRVK0vmzaNKrCKqH1DBX30lMmGZ
